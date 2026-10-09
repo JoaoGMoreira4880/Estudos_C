@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+int meu_strlen (char *s){
+    int contador = 0;
+    while (*s != '\0')
+    {
+        contador++;
+        s++;
+    }
+return contador;
+}
 struct aluno
 {
     char nome [50];
@@ -32,10 +41,12 @@ void dar_bonus(struct aluno *turma, int tamanho){
 }
 
 int main(){
+    int j = 0;
     int i = 0;
     int n = 0;
     printf("Quantos alunos deseja cadastrar na turma ?\n");
     scanf("%d", &n);
+    getchar();
     struct aluno *p = malloc(n * sizeof(struct aluno));
     if (p == NULL)
     {
@@ -48,11 +59,22 @@ int main(){
         int idade_main = 0;
         float nota_main = 0.0;
         printf("Digite o nome do aluno: \n");
-        scanf("%s", nome_main);
+        fgets(nome_main, 50, stdin);
+        int numero = meu_strlen(nome_main);
+        for (j = 0; j < numero; j++)
+        {
+            if (nome_main[j] == '\n')
+            {
+                nome_main[j] = '\0';
+                printf("[%s]\n", nome_main);
+            }   
+        }
         printf("Digite a idade do aluno: \n");
         scanf("%d", &idade_main);
+        getchar();
         printf("Digite a nota do aluno: \n");
         scanf("%f", &nota_main);
+        getchar();
         p[i] = criar_aluno(nome_main, idade_main, nota_main);
     }
     printf("As notas dos alunos são: \n");
