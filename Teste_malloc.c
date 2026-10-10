@@ -19,7 +19,8 @@ void tirar_enter(char *s){
         if (s[k] == '\n')
         {
             s[k] = '\0';
-        }   
+            break;
+        }
     }
 }
 struct aluno
@@ -31,8 +32,8 @@ struct aluno
 struct turma
 {
     char nome_turma [50];
-    struct aluno *p;
-   int tamanho_turma; 
+    struct aluno *alunos;
+    int tamanho_turma; 
 };
 
 struct aluno criar_aluno(char nome_temp [50], int idade_temp, float nota_temp){
@@ -54,17 +55,21 @@ void dar_bonus(struct aluno *turma, int tamanho){
 int main(){
     int j = 0;
     int i = 0;
-    int n = 0;
+    struct turma turma1;
+    turma1.alunos = NULL;
+    printf("Como deseja chamar a turma ?\n");
+    fgets(turma1.nome_turma, 50, stdin);
+    tirar_enter(turma1.nome_turma);
     printf("Quantos alunos deseja cadastrar na turma ?\n");
-    scanf("%d", &n);
+    scanf("%d", &turma1.tamanho_turma);
     getchar();
-    struct aluno *p = malloc(n * sizeof(struct aluno));
-    if (p == NULL)
+    turma1.alunos = malloc(turma1.tamanho_turma * sizeof(struct aluno));
+    if (turma1.alunos == NULL)
     {
         printf("Operação falhou !");
         return 1;
     }
-    for (i = 0; i < n; i++)
+    for (i = 0; i < turma1.tamanho_turma; i++)
     {
         char nome_main[50];
         int idade_main = 0;
@@ -78,19 +83,20 @@ int main(){
         printf("Digite a nota do aluno: \n");
         scanf("%f", &nota_main);
         getchar();
-        p[i] = criar_aluno(nome_main, idade_main, nota_main);
+        turma1.alunos[i] = criar_aluno(nome_main, idade_main, nota_main);
     }
-    printf("As notas dos alunos são: \n");
-    for (i = 0; i < n; i++)
+    printf("As notas dos alunos da turma: %s, são: \n", turma1.nome_turma);
+    for (i = 0; i < turma1.tamanho_turma; i++)
     {
-        printf("%.2f\n", (p + i)->nota);
+        printf("%.2f\n", (turma1.alunos + i)->nota);
     }
-    dar_bonus(p, n);
-    printf("Após o bonus as notas são: \n");
-    for (i = 0; i < n; i++)
+    dar_bonus(turma1.alunos, turma1.tamanho_turma);
+    printf("Após o bonus as notas são iguais a: \n");
+    for (i = 0; i < turma1.tamanho_turma; i++)
     {
-        printf("%.2f\n", (p + i)->nota);
+        printf("%.2f\n", (turma1.alunos + i)->nota);
     }
-    free(p);
+    free(turma1.alunos);
+    turma1.alunos = NULL;
 return 0;
 }
