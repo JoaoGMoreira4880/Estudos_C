@@ -11,6 +11,17 @@ int meu_strlen (char *s){
     }
 return contador;
 }
+void tirar_enter(char *s){
+    int k = 0;
+    int length = meu_strlen(s);
+    for (k = 0; k < length; k++)
+    {
+        if (s[k] == '\n')
+        {
+            s[k] = '\0';
+        }   
+    }
+}
 struct aluno
 {
     char nome [50];
@@ -60,15 +71,7 @@ int main(){
         float nota_main = 0.0;
         printf("Digite o nome do aluno: \n");
         fgets(nome_main, 50, stdin);
-        int numero = meu_strlen(nome_main);
-        for (j = 0; j < numero; j++)
-        {
-            if (nome_main[j] == '\n')
-            {
-                nome_main[j] = '\0';
-                printf("[%s]\n", nome_main);
-            }   
-        }
+        tirar_enter(nome_main);
         printf("Digite a idade do aluno: \n");
         scanf("%d", &idade_main);
         getchar();
